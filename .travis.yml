@@ -1,0 +1,34 @@
+cache: pip
+language: python
+python:
+- '2.7'
+- '3.5'
+- '3.6'
+env:
+  global:
+  - PROJECT="Odoo Sentinel"
+  - GH_NAME="OCA Git Bot"
+  - GH_EMAIL="oca-git-bot@odoo-community.org"
+  matrix:
+  - TESTS="1"
+  - LINT="1"
+  - DOCS="1"
+install:
+- git clone --depth=1 https://github.com/LasLabs/python-quality-tools.git ${HOME}/python-quality-tools
+- export PATH=${HOME}/python-quality-tools/travis:${PATH}
+- travis_install
+script:
+- travis_run
+after_success:
+- travis_after_success
+deploy:
+  provider: pypi
+  user: laslabs
+  password:
+    secure: gea/apUsUPXoSxC34fsrBkZPvA9eFAuMBJMpVHRwVpV/dnM09sVDocFT4FL1picbo3HEiwi7fPMjJ8kPDdYJKdAj5j1QGn6gqB/mYZIFiuLMb8u90qX8cihnvaH9jGbo16SCwUov3roNaf43e+T9e/AqaRqwW8NNqHW719KIs4R9pEulmrL6WMXcN4vYzXgnVSyU+j2tdeGWFdqKtGJjFfGRguQgp78EaMTY+4oo0fm+/3Gq8u/1TD9iBh/blY8hKBnnS+XGaEtJcYfYLYz0o7Zf9a+Mb52M6z4TRsav+dShgMoBQqOy0oWEJsGi38ZNGqk8qYup0KgLV+F9xuuaeAWWUMszoxxPluzYPE+nShInRHAMYkwieP/QuVgJFyse2VQJ9mmQyhPahUCSEfsXzpEkmsPeR2XbT+1z//c6PUt79Nscn9XpStc5SduSk0TgUu2GL/lmgak53DODgDxE10Fa12SQR0HAviZadWfzHhXaBxNVHHvsXkgjKscaG2fF9eXXpfCS7BwA4dGjOWsnBuVzEWv5LzELeaGrZtLZN20pf7/0S2hK60TSXNMJSr5hd1mbID90RD4ZHM29zZimVMEzCTI+EXMXu1ELmPjjvLdfDQ+xg3Nn7zDyTHty8fyXjtVklfToaiLI1AaT1CxeOlcZkSpSUiHkOYBLKB+RQco=
+  distributions: sdist bdist_wheel
+  skip_upload_docs: true
+  on:
+    repo: OCA/oca-decorators
+    branch: master
+    tags: true
